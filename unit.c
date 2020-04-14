@@ -10,28 +10,28 @@ static void* test_node_dump (node_t* node, void* args) {
 	if (out == NULL)
 		return NULL;
 
-	DBG printf(      "{%d} ", node -> key);
+	DBG printf(  "{%d} ", node -> key);
 	fprintf(out, "{%d} ", node -> key);
 
 	if (node -> left != NULL) {
-		DBG printf(      "{%d} ", node -> left -> key);
+		DBG printf(  "{%d} ", node -> left -> key);
 		fprintf(out, "{%d} ", node -> left -> key);
 	}
 	else {
-		DBG printf(      "{} ");
+		DBG printf(  "{} ");
 		fprintf(out, "{} ");
 	}
 
 	if (node -> right != NULL) {
-		DBG printf(      "{%d} ", node -> right -> key);
+		DBG printf(  "{%d} ", node -> right -> key);
 		fprintf(out, "{%d} ", node -> right -> key);
 	}
 	else {
-		DBG printf(      "{} ");
+		DBG printf(  "{} ");
 		fprintf(out ,"{} ");
 	}
 
-	DBG printf(      "\n");
+	DBG printf(  "\n");
 	fprintf(out, "\n");
 	return NULL;
 }
