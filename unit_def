@@ -1,0 +1,15 @@
+#ifndef UNIT_H
+#define UNIT_H
+
+#define TEST_NAME_MAX_SIZE 8
+#define ANS_TEST_NAME_MAX_SIZE 12
+#define THIS_ANS_TEST_NAME_MAX_SIZE 11
+#define TEST_MAX_INPUT 64
+
+#define NUM_OF_UNIT_TESTS 8 
+
+#define TEST_PATH "test/"
+#define TEST_ANS_PATH "test_ans/"
+#define TMP_ANS_PATH "tmp_ans/"
+
+#endif //UNIT_H
