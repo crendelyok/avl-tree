@@ -1,0 +1,8 @@
+//#define DEBUG_UNIT_TEST
+
+#ifndef DEBUG_UNIT_TEST 
+#define DBG if(0)
+#else
+#define DBG
+#endif //DEBUF_UNIT_TEST
+

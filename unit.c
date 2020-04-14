@@ -3,38 +3,63 @@
 #include "rand_mem.h"
 #include <string.h>
 
-void* test_node_dump (node_t* node, void* args) {	
+#include "debug_unit_test"
+
+static void* test_node_dump (node_t* node, void* args) {	
 	FILE* out = (FILE*) args;
 	if (out == NULL)
 		return NULL;
 
-	printf(      "{%d} ", node -> key);
+	DBG printf(      "{%d} ", node -> key);
 	fprintf(out, "{%d} ", node -> key);
 
 	if (node -> left != NULL) {
-		printf(      "{%d} ", node -> left -> key);
+		DBG printf(      "{%d} ", node -> left -> key);
 		fprintf(out, "{%d} ", node -> left -> key);
 	}
 	else {
-		printf(      "{} ");
+		DBG printf(      "{} ");
 		fprintf(out, "{} ");
 	}
 
 	if (node -> right != NULL) {
-		printf(      "{%d} ", node -> right -> key);
+		DBG printf(      "{%d} ", node -> right -> key);
 		fprintf(out, "{%d} ", node -> right -> key);
 	}
 	else {
-		printf(      "{} ");
+		DBG printf(      "{} ");
 		fprintf(out ,"{} ");
 	}
 
-	printf(      "\n");
+	DBG printf(      "\n");
 	fprintf(out, "\n");
 	return NULL;
 }
 
-void unit_test(int j) {
+static void check_unit_test(int j, FILE* origin, FILE* created) {
+	rewind(created);
+	rewind(origin);
+
+	printf("UNIT TEST NUMBER %d :", j);
+	int success = 1;
+	//char buffer_origin[BUFFER_SIZE] = calloc(BUFFER_SIZE, sizeof(char));
+	//char buffer_created[BUFFER_SIZE] = calloc(BUFFER_SIZE, sizeof(char));
+
+	int ch_origin = 0, ch_created = 0;
+	int line = 1;
+	while (!feof(origin) && !feof(created) && (ch_origin == ch_created)) {
+		ch_origin = fgetc(origin);
+		ch_created = fgetc(created);
+		if (ch_origin == '\n' && ch_created == '\n')
+			line++;
+	}	
+	if (ch_origin == ch_created)
+		printf("SUCCESS\n");
+	else
+		printf("FAILED on the line number %d\n", line);
+}
+
+static void unit_test(int j) {
 	node_t* node = NULL;
 
 	//open origin test file input
@@ -58,7 +83,7 @@ void unit_test(int j) {
 	char this_ans_test_name_n[THIS_ANS_TEST_NAME_MAX_SIZE] = "";
 	sprintf(this_ans_test_name_n, "%d", j);
 	strcat(this_ans_test_name, this_ans_test_name_n);
-	FILE* this_ans_test = fopen(this_ans_test_name, "w");
+	FILE* this_ans_test = fopen(this_ans_test_name, "rw");
 	
 
 	//putting elements to the tree
@@ -66,7 +91,7 @@ void unit_test(int j) {
 	int i = 0;
 	int input[TEST_MAX_INPUT] = {};
 
-	printf("\n\nTESTING\n%s\n\n", test_name);
+	DBG printf("\n\nTESTING\n%s\n\n", test_name);
 
 	//futher loop requires "rand_mem.h"
 	while (fscanf(test, "%d", &x) == 1) {
@@ -81,6 +106,8 @@ void unit_test(int j) {
 
 	//managing tree with test_node_dump
 	visitor(node, test_node_dump, this_ans_test);
+	
+	check_unit_test(j, ans_test, this_ans_test);	
 
 	//freeing memory
 	for (int k = 0; k < i; ++k) {
