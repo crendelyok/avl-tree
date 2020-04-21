@@ -4,12 +4,15 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
-#include <errno.h>
 #include <limits.h>
 
-//#include "rand_mem.h"
 
 typedef struct avl_node node_t;
+typedef struct avl_tree tree_t;
+
+struct avl_tree {
+	node_t* head;
+};
 
 struct avl_node {
 	int key;
@@ -18,15 +21,17 @@ struct avl_node {
 	node_t* right;
 };
 
-node_t* node_init (int);
-int visitor(node_t*, void* (*func)(node_t*, void*), void*);
-void* node_dump (node_t*, void*);
-node_t* insert (node_t*, int);
-node_t* remove_node (node_t*, int);
+tree_t* tree_init(int);
+int visitor(tree_t*, void* (*func)(node_t*, void*), void*);
+int visitorLRN(tree_t*, void* (*func)(node_t*, void*), void*);
+int insert(tree_t*, int);
+int remove_by_key(tree_t*, int);
+int tree_destroy(tree_t*);
 
 
 //RANDOM = 0 for no random
-//RANDOM = 1 for no random
+//RANDOM = 1 for random
+
 #define RANDOM 1
 #define MAX_RAND 2
 #define MAGIC_NUMBER 1

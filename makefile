@@ -10,12 +10,12 @@ include $(wildcard *.d)
 .PHONY: clean makegcov
 
 makegcov:
-	gcc --coverage -O0 rand_mem.c avl.c unit.c
+	gcc -Wall -Wextra --coverage -O0 avl.c unit.c rand_mem.c
 	valgrind ./a.out
 	gcov unit.c -m 
 	gcov avl.c -m 
 	gcov rand_mem.c -m 
 
 clean:
-	rm *.gcno *.gcda *.gcov ./a.out
+	rm *.gcno *.gcda *.gcov exe ./a.out *.o *.d
 	ls

@@ -1,4 +1,4 @@
-//#define DEBUG_UNIT_TEST
+#define DEBUG_UNIT_TEST
 
 #ifndef DEBUG_UNIT_TEST 
 #define DBG if(0)

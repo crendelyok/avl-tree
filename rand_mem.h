@@ -3,12 +3,12 @@
 
 #include "avl.h"
 
-//define MY_RANDOM_MALLOC for random malloc
 #define MY_RANDOM_MALLOC
 
-node_t* rand_node_init(int);
-node_t* rand_insert(node_t*, int);
-static void* num_of_elements(node_t*, void*);
+#define __TIMEOUT__ 4096
+tree_t* rand_tree_init(int);
+int rand_insert(tree_t*, int);
 void* my_malloc(size_t, int);
+
 
 #endif //RAND_MEM_H

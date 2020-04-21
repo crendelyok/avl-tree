@@ -14,30 +14,45 @@ void* my_malloc(size_t size, int rand_factor) {
         return calloc(1, size);
 }
 
-node_t* rand_node_init(int x) {
-        node_t* node = node_init(x);
-        while(node == NULL)
-                node = node_init(x);
-        return node;
-}
+//timeout as well
+int rand_insert(tree_t* tree, int val) {
+	if (tree == NULL)
+		return 1;
 
-node_t* rand_insert(node_t* node, int x) {
-        int allocated = 0;
-        visitor(node, num_of_elements, &allocated);
+	int allocated = 0;
+        visitor(tree, num_of_elements, &allocated);
 
-        node_t* temp = node;
-        node = insert(node, x);
+	tree_t* temp = tree;
+        insert(temp, val);
         
         int allocated2 = 0;
-        visitor(node, num_of_elements, &allocated2);
+        visitor(tree, num_of_elements, &allocated2);
 
+	int timeout = 0;
         while (allocated == allocated2) {
+		timeout++;
+		assert(timeout != __TIMEOUT__);
+
                 allocated2 = 0;
-                node = temp; 
-                node = insert(node, x);
-                visitor(node, num_of_elements, &allocated2);
+                tree = temp; 
+                insert(tree, val);
+                visitor(tree, num_of_elements, &allocated2);
         }
-        return node;
+	return 0;
+}
+
+//make timeout
+tree_t* rand_tree_init(int val) {
+	tree_t* tree = tree_init(val);
+
+	int timeout = 0;
+	while(tree == NULL) {
+		timeout++;
+		assert(timeout != __TIMEOUT__);
+
+		tree = tree_init(val);
+	}
+	return tree;
 }
 
 
